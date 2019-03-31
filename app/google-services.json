@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "642350076293",
+    "firebase_url": "https://mealplanner-um.firebaseio.com",
+    "project_id": "mealplanner-um",
+    "storage_bucket": "mealplanner-um.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642350076293:android:4816a0b4272e1c76",
+        "android_client_info": {
+          "package_name": "com.nicster34.mealplan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "642350076293-m1drlmnmch0grl62i3lpgmfvh6p04s1u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nicster34.mealplan",
+            "certificate_hash": "59768fe87a6f5870e4f2841d3e44823ff8a7529c"
+          }
+        },
+        {
+          "client_id": "642350076293-ehl7qut76sudff7eesa2qlbgjl993u14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoZ3Tdswq6mvouL2mkgubIAOP5_jj-Y-I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "642350076293-ehl7qut76sudff7eesa2qlbgjl993u14.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642350076293:android:ff6a9c45800607fd",
+        "android_client_info": {
+          "package_name": "com.nicster34.mealplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "642350076293-20q3f5bf387a271lro9sojqkg1j5kd4u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nicster34.mealplanner",
+            "certificate_hash": "59768fe87a6f5870e4f2841d3e44823ff8a7529c"
+          }
+        },
+        {
+          "client_id": "642350076293-ehl7qut76sudff7eesa2qlbgjl993u14.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoZ3Tdswq6mvouL2mkgubIAOP5_jj-Y-I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "642350076293-ehl7qut76sudff7eesa2qlbgjl993u14.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
