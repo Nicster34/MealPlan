@@ -93,6 +93,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             // update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             Log.e(TAG, "createAccount: Fail!", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed!", Toast.LENGTH_SHORT).show();
@@ -118,6 +119,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                             // update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             Log.e(TAG, "signIn: Fail!", task.getException());
                             Toast.makeText(getApplicationContext(), "Authentication failed!", Toast.LENGTH_SHORT).show();

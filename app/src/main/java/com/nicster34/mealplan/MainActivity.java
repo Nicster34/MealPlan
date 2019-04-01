@@ -10,6 +10,12 @@ import android.view.View;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.nicster34.mealplan.data.Ingredient;
+import com.nicster34.mealplan.data.IngredientRef;
+import com.nicster34.mealplan.data.Meal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,7 +52,21 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), Profile.class));
+                //startActivity(new Intent(getApplicationContext(), Profile.class));
+                Ingredient apple = new Ingredient();
+                apple.setName("apple");
+                apple.setPrice(3.2);
+                Meal applesalad = new Meal();
+                applesalad.setInstructions("Cut apples man");
+                applesalad.setName("applesalad");
+                IngredientRef apl = new IngredientRef();
+                apl.setQuantity(2);
+                apl.setRef(mDatabase.collection("ingredients").document(apple.getName()));
+                List<IngredientRef> abs = new ArrayList<IngredientRef>();
+                abs.add(apl);
+                applesalad.setIngredients(abs);
+                mDatabase.collection("meals").document(applesalad.getName()).set(applesalad);
+
             }
         });
     }
