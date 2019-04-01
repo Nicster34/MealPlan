@@ -54,5 +54,12 @@ public class MainActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        if (mFirebaseUser == null) {
+            // Not signed in, launch the Sign In activity
+            startActivity(new Intent(this, SignInActivity.class));
+            finish();
+            return;
+        }
+
     }
 }
