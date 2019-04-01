@@ -1,5 +1,6 @@
 package com.nicster34.mealplan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -25,6 +26,7 @@ public class Profile extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         userEmailDisplay = findViewById(R.id.userEmailDisplay);
+
         updateUser();
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -32,6 +34,9 @@ public class Profile extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                //mFirebaseAuth.signOut();
+                startActivity(new Intent(getApplicationContext(), SignInActivity.class));
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -55,6 +60,7 @@ public class Profile extends AppCompatActivity {
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getIdToken() instead.
             String uid = user.getUid();
+            //mFirebaseAuth.signOut();
         }
     }
 
