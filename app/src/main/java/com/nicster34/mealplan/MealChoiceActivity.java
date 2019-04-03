@@ -30,10 +30,8 @@ public class MealChoiceActivity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tempView = findViewById(R.id.tempView);
         Intent tempInt = getIntent();
-
-        tempView.setText(tempInt.getStringExtra("mealType"));
+        setTitle("Chose a Meal (" + tempInt.getStringExtra("mealType") + ")");
 
     }
 
