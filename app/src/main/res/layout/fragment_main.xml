@@ -7,8 +7,10 @@
     tools:context=".MainActivityFragment"
     tools:showIn="@layout/activity_main">
 
+    <!--DATE-->
+
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -20,17 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:text="Breakfast"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
-
     <View
         android:id="@+id/divider"
         android:layout_width="395dp"
@@ -41,10 +32,23 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/text_date" />
+
+    <!--BREAKFAST-->
 
     <TextView
-        android:id="@+id/breakfastName"
+        android:id="@+id/break_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:text="Breakfast"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <TextView
+        android:id="@+id/break_name"
         android:layout_width="wrap_content"
         android:layout_height="21dp"
         android:layout_marginStart="48dp"
@@ -52,27 +56,25 @@
         android:text="Oats"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/break_title" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/break_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:src="@android:drawable/ic_menu_rotate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/break_title" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/break_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:src="@android:drawable/ic_menu_view"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintEnd_toStartOf="@+id/break_change"
+        app:layout_constraintTop_toBottomOf="@+id/break_title" />
 
     <View
         android:id="@+id/divider2"
@@ -84,5 +86,118 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
+        app:layout_constraintTop_toBottomOf="@+id/break_info" />
+
+    <!--LUNCH-->
+
+    <TextView
+        android:id="@+id/lunch_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:text="Lunch:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+    <TextView
+        android:id="@+id/lunch_name"
+        android:layout_width="wrap_content"
+        android:layout_height="21dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="24dp"
+        android:text="Oats"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lunch_title" />
+
+    <ImageButton
+        android:id="@+id/lunch_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:src="@android:drawable/ic_menu_rotate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lunch_title" />
+
+    <ImageButton
+        android:id="@+id/lunch_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:src="@android:drawable/ic_menu_view"
+        app:layout_constraintEnd_toStartOf="@+id/lunch_change"
+        app:layout_constraintTop_toBottomOf="@+id/lunch_title" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="395dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lunch_info" />
+
+    <!--DINNER-->
+
+    <TextView
+        android:id="@+id/din_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:text="Dinner:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+    <TextView
+        android:id="@+id/din_name"
+        android:layout_width="wrap_content"
+        android:layout_height="21dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="24dp"
+        android:text="Oats"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/din_title" />
+
+    <ImageButton
+        android:id="@+id/din_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:src="@android:drawable/ic_menu_rotate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/din_title" />
+
+    <ImageButton
+        android:id="@+id/din_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:src="@android:drawable/ic_menu_view"
+        app:layout_constraintEnd_toStartOf="@+id/din_change"
+        app:layout_constraintTop_toBottomOf="@+id/din_title" />
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="395dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/din_info" />
+
 </android.support.constraint.ConstraintLayout>

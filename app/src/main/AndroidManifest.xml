@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".MealChoiceActivity"
+            android:label="@string/title_activity_meal_choice"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nicster34.mealplan.MainActivity" />
+        </activity>
+        <activity
             android:name=".ResetPasswordActivity"
             android:label="@string/title_activity_reset_password"
             android:parentActivityName=".SignInActivity"
@@ -31,7 +40,6 @@
             android:name=".SignInActivity"
             android:label="@string/title_activity_sign_in"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"

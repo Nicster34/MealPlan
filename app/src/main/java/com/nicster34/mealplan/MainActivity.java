@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView dateDisplay;
     private TextView breakfastDisplay;
+    private ImageButton breakChangeButton;
+    private ImageButton lunchChangeButton;
+    private ImageButton dinChangeButton;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +45,23 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         today = new Date();
-        dateDisplay = findViewById(R.id.textView);
-        breakfastDisplay = findViewById(R.id.breakfastName);
+        dateDisplay = findViewById(R.id.text_date);
+        breakfastDisplay = findViewById(R.id.break_name);
+
+        breakChangeButton = findViewById(R.id.break_change);
+        lunchChangeButton = findViewById(R.id.lunch_change);
+        dinChangeButton = findViewById(R.id.din_change);
+
+        View.OnClickListener buttonlistener = new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                onChangeMeal(v);
+            }
+        };
+
+        breakChangeButton.setOnClickListener(buttonlistener);
+        lunchChangeButton.setOnClickListener(buttonlistener);
+        dinChangeButton.setOnClickListener(buttonlistener);
 
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -94,4 +117,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    public void onChangeMeal(View v){
+        Intent mealIntent = new Intent(getApplicationContext(),MealChoiceActivity.class);
+        switch (v.getId()) {
+            case R.id.break_change:
+                mealIntent.putExtra("mealType","Breakfast");
+                break;
+            case R.id.lunch_change:
+                mealIntent.putExtra("mealType","Lunch");
+                break;
+            case R.id.din_change:
+                mealIntent.putExtra("mealType","Dinner");
+                break;
+        }
+        startActivity(mealIntent);
+    }
+
 }
