@@ -12,9 +12,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Day at a Glance</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_sign_in">Sign In</string>
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_reset_password">Reset Password</string>
+    <string name="title_activity_meal_choice">Pick a Meal</string>
 </resources>
