@@ -13,12 +13,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.nicster34.mealplan.data.DayPlan;
 import com.nicster34.mealplan.data.Ingredient;
-import com.nicster34.mealplan.data.IngredientRef;
-import com.nicster34.mealplan.data.Meal;
 import com.nicster34.mealplan.data.User;
 
 import java.util.Date;
@@ -94,12 +89,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-//        FloatingActionButton Profile = findViewById(R.id.Profile);
-//        Profile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-//
+        FloatingActionButton Profile = findViewById(R.id.Profile);
+        Profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            }
+        });
+
         FloatingActionButton ShoppingList = findViewById(R.id.ShoppingList);
         ShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
