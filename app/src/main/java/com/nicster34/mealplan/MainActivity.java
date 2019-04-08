@@ -2,31 +2,20 @@ package com.nicster34.mealplan;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.nicster34.mealplan.data.DayPlan;
 import com.nicster34.mealplan.data.Ingredient;
-import com.nicster34.mealplan.data.IngredientRef;
-import com.nicster34.mealplan.data.Meal;
 import com.nicster34.mealplan.data.User;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,8 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton breakChangeButton;
     private ImageButton lunchChangeButton;
     private ImageButton dinChangeButton;
+    Intent myIntent;
+    private ImageView calendarButton;
     private User currentUser;
-
     private List<Ingredient> allIngredients;
 
 
@@ -61,8 +51,9 @@ public class MainActivity extends AppCompatActivity {
         breakChangeButton = findViewById(R.id.break_change);
         lunchChangeButton = findViewById(R.id.lunch_change);
         dinChangeButton = findViewById(R.id.din_change);
+        calendarButton = findViewById(R.id.calendarButton);
 
-        View.OnClickListener buttonlistener = new View.OnClickListener() {
+        View.OnClickListener buttonlistener = new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 onChangeMeal(v);
@@ -90,13 +81,22 @@ public class MainActivity extends AppCompatActivity {
                 mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
             }
         }
+        calendarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
+            }
+        });
 
-//        FloatingActionButton Profile = findViewById(R.id.Profile);
-//        Profile.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-//
+
+        FloatingActionButton Profile = findViewById(R.id.Profile);
+        Profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            }
+        });
+
         FloatingActionButton ShoppingList = findViewById(R.id.ShoppingList);
         ShoppingList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 //startActivity(new Intent(MainActivity.this, SignInActivity.class));
@@ -182,6 +183,14 @@ public class MainActivity extends AppCompatActivity {
             finish();
             return;
         }
+        myIntent = getIntent();
+        /*
+        myInten
+        if(myIntent!=null){
+            if(myIntent.getExtras().get("date")!=null) {
+                Log.d("Fee", (String) myIntent.getExtras().get("date"));
+            }
+        }*/
 
     }
 
