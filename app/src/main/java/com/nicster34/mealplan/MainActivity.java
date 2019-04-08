@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,10 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton breakChangeButton;
     private ImageButton lunchChangeButton;
     private ImageButton dinChangeButton;
-
+    Intent myIntent;
+    private ImageView calendarButton;
     private List<Ingredient> allIngredients;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         breakChangeButton = findViewById(R.id.break_change);
         lunchChangeButton = findViewById(R.id.lunch_change);
         dinChangeButton = findViewById(R.id.din_change);
+        calendarButton = findViewById(R.id.calendarButton);
 
         View.OnClickListener buttonlistener = new View.OnClickListener(){
             @Override
@@ -79,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         me = this;
+        calendarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +158,14 @@ public class MainActivity extends AppCompatActivity {
             finish();
             return;
         }
+        myIntent = getIntent();
+        /*
+        myInten
+        if(myIntent!=null){
+            if(myIntent.getExtras().get("date")!=null) {
+                Log.d("Fee", (String) myIntent.getExtras().get("date"));
+            }
+        }*/
 
     }
 

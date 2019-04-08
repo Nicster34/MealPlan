@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0524a1"
+    android:orientation="vertical"
+    tools:context=".CalendarActivity">
+
+    <TextView
+        android:id="@+id/myDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginRight="60dp"
+        android:text="Choose Date"
+        android:textAlignment="center"
+        android:textColor="#FFF"
+        android:textSize="34sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/bg_calen">
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></CalendarView>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="135dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/color"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Confirm Date" />
+
+
+</LinearLayout>

@@ -13,14 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".CalendarActivity"
+            android:label="Calendar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:parentActivityName=".MainActivity"
+                android:value="com.nicster34.mealplan.MainActivity" />
+        </activity>
+        <activity
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.nicster34.mealplan.MainActivity" />
-
-
         </activity>
         <activity
             android:name=".MealChoiceActivity"

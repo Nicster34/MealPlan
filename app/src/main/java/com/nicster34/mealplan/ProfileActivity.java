@@ -12,9 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 
@@ -30,20 +32,42 @@ public class ProfileActivity extends AppCompatActivity {
     private Button btnChoose;
     private Uri filePath;
     private FirebaseAuth mFirebaseAuth;
+    Intent myIntent;
+    private FirebaseUser mFirebaseUser;
+    private TextView userEmailDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        myIntent = getIntent();
+
+
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
 
         imageView = (ImageView) findViewById(R.id.imgView);
-        btnChoose = (Button) findViewById(R.id.button);
+        btnChoose = (Button) findViewById(R.id.button1);
         box1 = (CheckBox) findViewById(R.id.checkBox);
         box2 = (CheckBox) findViewById(R.id.checkBox3);
         box3 = (CheckBox) findViewById(R.id.checkBox4);
         box4 = (CheckBox) findViewById(R.id.checkBox5);
+        if (myIntent.getExtras() == null) {
+            box1.setVisibility(View.INVISIBLE);
+            box2.setVisibility(View.INVISIBLE);
+            box3.setVisibility(View.INVISIBLE);
+            box4.setVisibility(View.INVISIBLE);
+        } else {
+            box1.setChecked((Boolean) myIntent.getExtras().get("vegan"));
+            box2.setChecked((Boolean) myIntent.getExtras().get("gluten"));
+            box3.setChecked((Boolean) myIntent.getExtras().get("nut"));
+            box4.setChecked((Boolean) myIntent.getExtras().get("fish"));
+
+        }
+        userEmailDisplay = (TextView) findViewById(R.id.userEmail);
+        userEmailDisplay.setText(mFirebaseUser.getEmail());
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,5 +146,27 @@ public class ProfileActivity extends AppCompatActivity {
     private void logout() {
         mFirebaseAuth.signOut();
         startActivity(new Intent(getApplicationContext(), SignInActivity.class));
+    }
+
+    private void updateUser() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            //String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri photoUrl = user.getPhotoUrl();
+
+            userEmailDisplay.setText(email);
+            imageView.setImageURI(photoUrl);
+
+            // Check if user's email is verified
+            // boolean emailVerified = user.isEmailVerified();
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getIdToken() instead.
+            String uid = user.getUid();
+            //mFirebaseAuth.signOut();
+        }
     }
 }
