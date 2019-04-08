@@ -3,6 +3,7 @@ package com.nicster34.mealplan.data;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.List;
+import java.util.Map;
 
 public class User {
     private String name;
@@ -23,14 +24,14 @@ public class User {
         this.bannedMeals = bannedMeals;
     }
 
-    public List<DayPlan> getMealsPlanned() {
+    public Map<String,DocumentReference>  getMealsPlanned() {
         return mealsPlanned;
     }
 
-    public void setMealsPlanned(List<DayPlan> mealsPlanned) {
+    public void setMealsPlanned(Map<String,DocumentReference> mealsPlanned) {
         this.mealsPlanned = mealsPlanned;
     }
 
     private List<DocumentReference> bannedMeals;
-    private List<DayPlan> mealsPlanned;
+    private Map<String,DocumentReference> mealsPlanned;
 }

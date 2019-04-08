@@ -50,6 +50,7 @@
             android:name=".SignInActivity"
             android:label="@string/title_activity_sign_in"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -59,7 +60,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+        <activity android:name=".ShoppingListActivity" />
+        <activity android:name=".RecipeActivity"></activity>
     </application>
 
 </manifest>

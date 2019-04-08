@@ -13,7 +13,13 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.nicster34.mealplan.data.DayPlan;
 import com.nicster34.mealplan.data.Ingredient;
+import com.nicster34.mealplan.data.IngredientRef;
+import com.nicster34.mealplan.data.Meal;
+import com.nicster34.mealplan.data.User;
 
 import java.util.Date;
 import java.util.List;
@@ -25,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser mFirebaseUser;
     private FirebaseFirestore mDatabase;
     private Date today;
-    private MainActivity me;
 
     private TextView dateDisplay;
     private TextView breakfastDisplay;
@@ -34,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton dinChangeButton;
     Intent myIntent;
     private ImageView calendarButton;
+    private User currentUser;
     private List<Ingredient> allIngredients;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +86,25 @@ public class MainActivity extends AppCompatActivity {
                 mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
             }
         }
-        me = this;
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
+            }
+        });
+
+
+//        FloatingActionButton Profile = findViewById(R.id.Profile);
+//        Profile.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+//
+        FloatingActionButton ShoppingList = findViewById(R.id.ShoppingList);
+        ShoppingList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ShoppingListActivity.class));
             }
         });
 
@@ -92,23 +113,24 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-//                Ingredient apple = new Ingredient();
-//                apple.setName("apple");
-//                apple.setPrice(3.2);
-//                Meal applesalad = new Meal();
-//                applesalad.setInstructions("Cut apples man");
-//                applesalad.setName("applesalad");
-//                IngredientRef apl = new IngredientRef();
-//                apl.setQuantity(2);
-//                apl.setRef(mDatabase.collection("ingredients").document(apple.getName()));
-//                List<IngredientRef> abs = new ArrayList<IngredientRef>();
-//                abs.add(apl);
-//                applesalad.setIngredients(abs);
-//                mDatabase.collection("meals").document(applesalad.getName()).set(applesalad);
-//
-//
-//                DocumentReference docRef = mDatabase.collection("ingredients").document("apple");
+                //startActivity(new Intent(MainActivity.this, SignInActivity.class));
+                startActivity(new Intent(getApplicationContext(), RecipeActivity.class));
+                //Ingredient apple = new Ingredient();
+                //apple.setName("apple");
+                //apple.setPrice(3.2);
+                //Meal applesalad = new Meal();
+                // applesalad.setInstructions("Cut apples man");
+                //applesalad.setName("applesalad");
+                //IngredientRef apl = new IngredientRef();
+                //apl.setQuantity(2);
+                // apl.setRef(mDatabase.collection("ingredients").document(apple.getName()));
+                // List<IngredientRef> abs = new ArrayList<IngredientRef>();
+                // abs.add(apl);
+                //applesalad.setIngredients(abs);
+                //mDatabase.collection("meals").document(applesalad.getName()).set(applesalad);
+
+
+//                DocumentReference docRef = mDatabase.collection("users").document(mFirebaseUser.getUid());
 //                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 //                    @Override
 //                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -116,8 +138,9 @@ public class MainActivity extends AppCompatActivity {
 //                            DocumentSnapshot document = task.getResult();
 //                            if (document.exists()) {
 //                                Log.d("help", "DocumentSnapshot data: " + document.getData());
-//                                Ingredient appled = document.toObject(Ingredient.class);
-//                                Log.d("help", "DocumentSnapshot data: " + appled.getName());
+//                                currentUser = document.toObject(User.class);
+//                                Log.d("help", "DocumentSnapshot data: " + currentUser.getMealsPlanned());
+//                                loadUser(currentUser);
 //                            } else {
 //                                Log.d("help", "No such document");
 //                            }
@@ -126,15 +149,20 @@ public class MainActivity extends AppCompatActivity {
 //                        }
 //                    }
 //                });
-//                allIngredients = new ArrayList<Ingredient>();
-//                CollectionReference colRef = mDatabase.collection("ingredients");
+                //allIngredients = new ArrayList<Ingredient>();
+//                Log.d("Dunking", "onClick: FUCK");
+//                CollectionReference colRef = mDatabase.collection("users").document(mFirebaseUser.getUid()).collection("mealsplanned");
+//                if(colRef==null){
+//                    Log.d("Dunking", "onClick: NULL");
+//                }
 //                colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 //                    @Override
 //                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 //                        if (task.isSuccessful()) {
+//                            Log.d("Dunking", " => " + task.getResult().getDocuments().size());
 //                            for (QueryDocumentSnapshot document : task.getResult()) {
 //                                Log.d("Dunking", document.getId() + " => " + document.getData());
-//                                allIngredients.add(document.toObject(Ingredient.class));
+//                                //sssallIngredients.add(document.toObject(Ingredient.class));
 //                            }
 //                        } else {
 //                            Log.d("Dunking", "Error getting documents: ", task.getException());
@@ -169,17 +197,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onChangeMeal(View v){
-        Intent mealIntent = new Intent(getApplicationContext(),MealChoiceActivity.class);
+    //
+//    private void loadUser(User u){
+//        DocumentReference day = u.getMealsPlanned().get(dateDisplay);
+//
+//    }
+//    private void loadMeals(DayPlan day){
+//        Meal breakfast;
+//        Meal lunch;
+//        Meal dinner;
+//        day.getBreakfast().get()
+//
+//
+//
+//    }
+    public void onChangeMeal(View v) {
+        Intent mealIntent = new Intent(getApplicationContext(), MealChoiceActivity.class);
         switch (v.getId()) {
             case R.id.break_change:
-                mealIntent.putExtra("mealType","Breakfast");
+                mealIntent.putExtra("mealType", "Breakfast");
                 break;
             case R.id.lunch_change:
-                mealIntent.putExtra("mealType","Lunch");
+                mealIntent.putExtra("mealType", "Lunch");
                 break;
             case R.id.din_change:
-                mealIntent.putExtra("mealType","Dinner");
+                mealIntent.putExtra("mealType", "Dinner");
                 break;
         }
         startActivity(mealIntent);
