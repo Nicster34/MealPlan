@@ -52,7 +52,7 @@ public class ShoppingListActivity extends AppCompatActivity {
 //        This is going to have to go in a for loop that knows how many meals there are, so that every meal's
 //        ingredients are actually shown
         for (int i = 0; i < recipe.size(); i++) {
-            Items.append("[Name of food here]" + " " + "[quantity here]" + " " + "[type of quantity here]" + "\n");
+            Items.append("[Name of food here]" + " " + "[quantity here]" + " " + "\n");
         }
     }
 }
