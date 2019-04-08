@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private List<Ingredient> allIngredients;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         lunchChangeButton = findViewById(R.id.lunch_change);
         dinChangeButton = findViewById(R.id.din_change);
 
-        View.OnClickListener buttonlistener = new View.OnClickListener(){
+        View.OnClickListener buttonlistener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onChangeMeal(v);
@@ -98,29 +97,31 @@ public class MainActivity extends AppCompatActivity {
 //            public void onClick(View view) {
 //                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
 //
-//        FloatingActionButton ShoppingList = findViewById(R.id.ShoppingList);
-//        ShoppingList.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, ShoppingListActivity.class));
+        FloatingActionButton ShoppingList = findViewById(R.id.ShoppingList);
+        ShoppingList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ShoppingListActivity.class));
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //startActivity(new Intent(MainActivity.this, SignInActivity.class));
-                //startActivity(new Intent(getApplicationContext(), Profile.class));
+                startActivity(new Intent(getApplicationContext(), RecipeActivity.class));
                 //Ingredient apple = new Ingredient();
                 //apple.setName("apple");
                 //apple.setPrice(3.2);
                 //Meal applesalad = new Meal();
-               // applesalad.setInstructions("Cut apples man");
+                // applesalad.setInstructions("Cut apples man");
                 //applesalad.setName("applesalad");
                 //IngredientRef apl = new IngredientRef();
                 //apl.setQuantity(2);
-               // apl.setRef(mDatabase.collection("ingredients").document(apple.getName()));
-               // List<IngredientRef> abs = new ArrayList<IngredientRef>();
-               // abs.add(apl);
+                // apl.setRef(mDatabase.collection("ingredients").document(apple.getName()));
+                // List<IngredientRef> abs = new ArrayList<IngredientRef>();
+                // abs.add(apl);
                 //applesalad.setIngredients(abs);
                 //mDatabase.collection("meals").document(applesalad.getName()).set(applesalad);
 
@@ -183,7 +184,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-//
+
+    //
 //    private void loadUser(User u){
 //        DocumentReference day = u.getMealsPlanned().get(dateDisplay);
 //
@@ -197,17 +199,17 @@ public class MainActivity extends AppCompatActivity {
 //
 //
 //    }
-    public void onChangeMeal(View v){
-        Intent mealIntent = new Intent(getApplicationContext(),MealChoiceActivity.class);
+    public void onChangeMeal(View v) {
+        Intent mealIntent = new Intent(getApplicationContext(), MealChoiceActivity.class);
         switch (v.getId()) {
             case R.id.break_change:
-                mealIntent.putExtra("mealType","Breakfast");
+                mealIntent.putExtra("mealType", "Breakfast");
                 break;
             case R.id.lunch_change:
-                mealIntent.putExtra("mealType","Lunch");
+                mealIntent.putExtra("mealType", "Lunch");
                 break;
             case R.id.din_change:
-                mealIntent.putExtra("mealType","Dinner");
+                mealIntent.putExtra("mealType", "Dinner");
                 break;
         }
         startActivity(mealIntent);
