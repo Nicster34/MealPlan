@@ -2,6 +2,7 @@ package com.nicster34.mealplan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,9 +12,16 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.nicster34.mealplan.data.Ingredient;
 import com.nicster34.mealplan.data.IngredientRef;
 import com.nicster34.mealplan.data.Meal;
@@ -35,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton breakChangeButton;
     private ImageButton lunchChangeButton;
     private ImageButton dinChangeButton;
+
+    private List<Ingredient> allIngredients;
 
 
 
@@ -98,6 +108,41 @@ public class MainActivity extends AppCompatActivity {
                 abs.add(apl);
                 applesalad.setIngredients(abs);
                 mDatabase.collection("meals").document(applesalad.getName()).set(applesalad);
+
+
+                DocumentReference docRef = mDatabase.collection("ingredients").document("apple");
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d("help", "DocumentSnapshot data: " + document.getData());
+                                Ingredient appled = document.toObject(Ingredient.class);
+                                Log.d("help", "DocumentSnapshot data: " + appled.getName());
+                            } else {
+                                Log.d("help", "No such document");
+                            }
+                        } else {
+                            Log.d("help", "get failed with ", task.getException());
+                        }
+                    }
+                });
+                allIngredients = new ArrayList<Ingredient>();
+                CollectionReference colRef = mDatabase.collection("ingredients");
+                colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("Dunking", document.getId() + " => " + document.getData());
+                                allIngredients.add(document.toObject(Ingredient.class));
+                            }
+                        } else {
+                            Log.d("Dunking", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
             }
         });
