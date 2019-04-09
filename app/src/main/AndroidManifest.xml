@@ -62,8 +62,22 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".ShoppingListActivity" />
-        <activity android:name=".RecipeActivity"></activity>
+        <activity
+            android:name=".ShoppingListActivity"
+            android:label="@string/title_ShoppingList_main"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nicster34.mealplan.MainActivity" />
+        </activity>
+        <activity
+            android:name=".RecipeActivity"
+            android:label="@string/title_activity_recipe"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nicster34.mealplan.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -18,4 +18,6 @@
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_reset_password">Reset Password</string>
     <string name="title_activity_meal_choice">Pick a Meal</string>
+    <string name="title_ShoppingList_main">Shopping List</string>
+    <string name="title_activity_recipe">Recipe</string>
 </resources>

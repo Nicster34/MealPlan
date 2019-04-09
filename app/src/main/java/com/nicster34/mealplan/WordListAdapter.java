@@ -54,7 +54,9 @@
 //}
 package com.nicster34.mealplan;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -84,20 +86,31 @@ public class WordListAdapter extends RecyclerView.Adapter<WordListAdapter.WordVi
             int mPosition = getLayoutPosition();
             // Use that to access the affected item in mWordList.
             String element = mWordList.get(mPosition);
-            // Change the word in the mWordList.
-            mWordList.set(mPosition, "Clicked! " + element);
-            // Notify the adapter, that the data has changed so it can
-            // update the RecyclerView to display the data.
-            mAdapter.notifyDataSetChanged();
+
+            //get the meal type
+            mIntent.putExtra("mealSelection", element);
+            mAct.setResult(Activity.RESULT_OK, mIntent);
+            mAct.finish();
+//            //Change the word in the mWordList.
+//            mWordList.set(mPosition, "Clicked! " + element);
+//            // Notify the adapter, that the data has changed so it can
+//            // update the RecyclerView to display the data.
+//            mAdapter.notifyDataSetChanged();
         }
     }
 
     private final LinkedList<String> mWordList;
     private LayoutInflater mInflater;
+    private Context mContext;
+    private Intent mIntent;
+    private MealChoiceActivity mAct;
 
-    public WordListAdapter(Context context, LinkedList<String> wordList) {
+    public WordListAdapter(Context context, LinkedList<String> wordList, Intent intent, MealChoiceActivity act) {
         mInflater = LayoutInflater.from(context);
+        this.mContext = context;
         this.mWordList = wordList;
+        this.mIntent = intent;
+        this.mAct = act;
     }
 
     @NonNull
