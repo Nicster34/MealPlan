@@ -416,20 +416,26 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("help", "DocumentSnapshot data: " + document.getData());
                             currentBreakfast = document.toObject(Meal.class);
                             updateBreakfastUI();
+
                             //Log.d("help", "DocumentSnapshot data: " + currentUser.getMealsPlanned());
                         } else {
                             Log.d("help", "No such document");
                             currentBreakfast = null;
+                            updateBreakfastUI();
                         }
 
                     } else {
                         Log.d("help", "get failed with ", task.getException());
                     }
+                    updateBreakfastUI();
 
                 }
             });
 
+        } else {
+            currentBreakfast = null;
         }
+
         updateBreakfastUI();
 
     }
@@ -455,18 +461,20 @@ public class MainActivity extends AppCompatActivity {
                         if (document.exists()) {
                             Log.d("help", "DocumentSnapshot data: " + document.getData());
                             currentLunch = document.toObject(Meal.class);
-                            updateLunchUI();
+
                             //Log.d("help", "DocumentSnapshot data: " + currentUser.getMealsPlanned());
                         } else {
                             Log.d("help", "No such document");
                             currentLunch = null;
                         }
-
+                        updateLunchUI();
                     } else {
                         Log.d("help", "get failed with ", task.getException());
                     }
                 }
             });
+        } else {
+            currentLunch = null;
         }
         updateLunchUI();
     }
@@ -504,6 +512,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+        } else {
+            currentDinner = null;
         }
         updateDinnerUI();
     }
