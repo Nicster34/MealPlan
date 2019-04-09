@@ -3,20 +3,32 @@ package com.nicster34.mealplan;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.nicster34.mealplan.data.DayPlan;
 import com.nicster34.mealplan.data.Ingredient;
+import com.nicster34.mealplan.data.Meal;
 import com.nicster34.mealplan.data.User;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -26,13 +38,16 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
     private FirebaseFirestore mDatabase;
+
     private Date today;
+    private DateFormat formatter;
 
     private TextView dateDisplay;
     private TextView breakfastDisplay;
     public static final int MEALREQUEST = 1025;
     public static final int DATEREQUEST = 1026;
     private ImageButton breakChangeButton;
+    private ImageButton breakViewButton;
     private ImageButton lunchChangeButton;
     private ImageButton dinChangeButton;
     Intent myIntent;
@@ -42,6 +57,20 @@ public class MainActivity extends AppCompatActivity {
     private TextView lunchDisplay;
     private TextView dinnerDisplay;
 
+
+    private DocumentReference currentPlanRef;
+    private DayPlan currentPlan;
+
+    private DocumentReference currentBreakfastRef;
+    private Meal currentBreakfast;
+
+    private DocumentReference currentLunchRef;
+    private Meal currentLunch;
+
+    private DocumentReference currentDinnerRef;
+    private Meal currentDinner;
+    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +78,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         today = new Date();
+        formatter = new SimpleDateFormat("MMMM d yyyy");
         dateDisplay = findViewById(R.id.text_date);
+        dateDisplay.setText(formatter.format(today));
 
         breakfastDisplay = findViewById(R.id.break_name);
         lunchDisplay = findViewById(R.id.lunch_name);
@@ -77,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         String mUsername = null;
         String mPhotoUrl = null;
+
         if (mFirebaseUser == null) {
             // Not signed in, launch the Sign In activity
             startActivity(new Intent(this, SignInActivity.class));
@@ -89,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
             }
         }
+        updateDayPlan();
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -238,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == DATEREQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 String selection = data.getStringExtra("newDate");
-                dateDisplay.setText(selection);
+                onNewDate(selection);
             }
         }
         if (requestCode == MEALREQUEST) {
@@ -246,19 +279,196 @@ public class MainActivity extends AppCompatActivity {
                 String selection = data.getStringExtra("mealSelection");
                 switch (data.getStringExtra("mealType")) {
                     case "Breakfast":
-                        breakfastDisplay.setText(selection);
+                        currentBreakfastRef = mDatabase.collection("meals").document(selection);
+                        currentPlan.setBreakfast(currentBreakfastRef);
+                        currentPlanRef.set(currentPlan).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("d", "DocumentSnapshot successfully written!");
+                                updateDayPlan();
+                            }
+                        });
+
                         break;
                     case "Lunch":
-                        lunchDisplay.setText(selection);
+                        currentLunchRef = mDatabase.collection("meals").document(selection);
+                        currentPlan.setLunch(currentLunchRef);
+                        currentPlanRef.set(currentPlan).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("d", "DocumentSnapshot successfully written!");
+                                updateDayPlan();
+                            }
+                        });
+
                         break;
                     case "Dinner":
-                        dinnerDisplay.setText(selection);
+                        currentDinnerRef = mDatabase.collection("meals").document(selection);
+                        currentPlan.setDinner(currentDinnerRef);
+                        currentPlanRef.set(currentPlan).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("d", "DocumentSnapshot successfully written!");
+                                updateDayPlan();
+                            }
+                        });
                         break;
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
+        }
+    }
+
+    protected void onNewDate(String newDate) {
+        dateDisplay.setText(newDate);
+        try {
+            today = formatter.parse(newDate);
+            updateDayPlan();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateDayPlan() {
+        currentPlanRef = mDatabase.collection("dayplans").document(mFirebaseUser.getUid() + formatter.format(today));
+        currentPlanRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d("help", "DocumentSnapshot data: " + document.getData());
+                        currentPlan = document.toObject(DayPlan.class);
+                        //Log.d("help", "DocumentSnapshot data: " + currentUser.getMealsPlanned());
+                    } else {
+                        Log.d("help", "No such document");
+                        currentPlan = new DayPlan();
+                        currentPlan.setDate(today);
+                        currentPlanRef.set(currentPlan);
+                    }
+                } else {
+                    Log.d("help", "get failed with ", task.getException());
+                }
+                updateMeals();
+            }
+        });
+    }
+
+    private void updateMeals() {
+        currentBreakfastRef = currentPlan.getBreakfast();
+        loadBreakfast();
+        currentLunchRef = currentPlan.getLunch();
+        loadLunch();
+        currentDinnerRef = currentPlan.getDinner();
+        loadDinner();
+    }
+
+    private void loadBreakfast() {
+        if (currentBreakfastRef != null) {
+            currentBreakfastRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d("help", "DocumentSnapshot data: " + document.getData());
+                            currentBreakfast = document.toObject(Meal.class);
+                            updateBreakfastUI();
+                            //Log.d("help", "DocumentSnapshot data: " + currentUser.getMealsPlanned());
+                        } else {
+                            Log.d("help", "No such document");
+                            currentBreakfast = null;
+                        }
+
+                    } else {
+                        Log.d("help", "get failed with ", task.getException());
+                    }
+
+                }
+            });
+            updateBreakfastUI();
+        }
+
+    }
+
+
+    protected void updateBreakfastUI() {
+        if (currentBreakfast != null) {
+            breakfastDisplay.setText(currentBreakfast.getName());
+        } else {
+            breakfastDisplay.setText("Pick a Meal");
+        }
+    }
+
+    private void loadLunch() {
+        if (currentLunchRef != null) {
+            currentLunchRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d("help", "DocumentSnapshot data: " + document.getData());
+                            currentLunch = document.toObject(Meal.class);
+                            updateLunchUI();
+                            //Log.d("help", "DocumentSnapshot data: " + currentUser.getMealsPlanned());
+                        } else {
+                            Log.d("help", "No such document");
+                            currentLunch = null;
+                        }
+
+                    } else {
+                        Log.d("help", "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
+        updateLunchUI();
+    }
+
+
+    protected void updateLunchUI() {
+        if (currentLunch != null) {
+            lunchDisplay.setText(currentLunch.getName());
+        } else {
+            lunchDisplay.setText("Pick a Meal");
+        }
+    }
+
+    private void loadDinner() {
+        if (currentDinnerRef != null) {
+            currentDinnerRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d("help", "DocumentSnapshot data: " + document.getData());
+                            currentDinner = document.toObject(Meal.class);
+                            updateDinnerUI();
+                            //Log.d("help", "DocumentSnapshot data: " + currentUser.getMealsPlanned());
+                        } else {
+                            Log.d("help", "No such document");
+                            currentDinner = null;
+                        }
+
+                    } else {
+                        Log.d("help", "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
+        updateDinnerUI();
+    }
+
+
+    protected void updateDinnerUI() {
+        if (currentDinner != null) {
+            dinnerDisplay.setText(currentDinner.getName());
+        } else {
+            dinnerDisplay.setText("Pick a Meal");
         }
     }
 
