@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -38,44 +40,48 @@ public class RecipeActivity extends AppCompatActivity {
     private String recipeFromIntent;
     private List<Ingredient> allIngredients;
 
+    //recycler view
+    private RecyclerView mRecyclerView;
+    private IngListAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDatabase = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_recipe);
         recipeFromIntent = getIntent().getStringExtra("meal");
-
         Intent my = getIntent();
-        Ingredients = (TextView) findViewById(R.id.IngredientHolder);
+
+        //find the views
+        //Ingredients = (TextView) findViewById(R.id.IngredientHolder);
         Recipe = (TextView) findViewById(R.id.RecipeHolder);
         MealName = (TextView) findViewById(R.id.RecipeTitle);
 
-        eggs.setName("Eggs");
-        cheese.setName("Cheese");
+//        eggs.setName("Eggs");
+//        cheese.setName("Cheese");
+//
+//        eggsRef.setRef(null);
+//        cheeseRef.setRef(null);
+//        eggsRef.setQuantity(2);
+//        cheeseRef.setQuantity(1);
+//
+//        recipe.add(eggsRef);
+//        recipe.add(cheeseRef);
+//
+//        meal.setIngredients(recipe);
+//
+//        meal.setInstructions("Put the eggs and the cheese in a pan and just make an omlette.");
+//
+//        meal.setName("Omlette");
+//
+//        Ingredients.setText("");
 
-        eggsRef.setRef(null);
-        cheeseRef.setRef(null);
-        eggsRef.setQuantity(2);
-        cheeseRef.setQuantity(1);
+//        Recipe.setText(meal.getInstructions());
+//        MealName.setText(meal.getName());
+//        mDatabase.collection("meals").get();
 
-        recipe.add(eggsRef);
-        recipe.add(cheeseRef);
 
-        meal.setIngredients(recipe);
 
-        meal.setInstructions("Put the eggs and the cheese in a pan and just make an omlette.");
-
-        meal.setName("Omlette");
-
-        Ingredients.setText("");
-
-        for (int i = 0; i < recipe.size(); i++) {
-
-        }
-
-        Recipe.setText(meal.getInstructions());
-        MealName.setText(meal.getName());
-        mDatabase.collection("meals").get();
         allMeals = new ArrayList<Meal>();
         CollectionReference colRef = mDatabase.collection("meals");
         colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -129,14 +135,25 @@ public class RecipeActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        Log.d("asdfasdf", "updateUI: ");
         Recipe.setText(meal.getInstructions());
         int counter = 0;
+        LinkedList<String> names = new LinkedList<>();
+        LinkedList<Number> nums = new LinkedList<>();
         for (Ingredient ing : allIngredients) {
-            Ingredients.append(ing.getName() + " " + meal.getIngredients().get(counter).getQuantity() + "\n");
+            names.add(ing.getName());
+            nums.add(meal.getIngredients().get(counter).getQuantity());
+            //Ingredients.append(ing.getName() + " " + meal.getIngredients().get(counter).getQuantity() + "\n");
             counter++;
         }
         MealName.setText(meal.getName());
+
+        mRecyclerView = findViewById(R.id.IngredientsHolder);
+        // Create an adapter and supply the data to be displayed.
+        mAdapter = new IngListAdapter(this, names, nums, getIntent());
+        // Connect the adapter with the RecyclerView.
+        mRecyclerView.setAdapter(mAdapter);
+        // Give the RecyclerView a default layout manager.
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     ;

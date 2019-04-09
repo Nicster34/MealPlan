@@ -65,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
     private User currentUser;
     private List<Ingredient> allIngredients;
 
-
-
     private DocumentReference currentPlanRef;
     private DayPlan currentPlan;
 
@@ -170,14 +168,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), RecipeActivity.class));
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(getApplicationContext(), RecipeActivity.class));
+//            }
+//        });
     }
 
     @Override
@@ -193,30 +191,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         myIntent = getIntent();
-        /*
-        myInten
-        if(myIntent!=null){
-            if(myIntent.getExtras().get("date")!=null) {
-                Log.d("Fee", (String) myIntent.getExtras().get("date"));
-            }
-        }*/
-
     }
 
-    //
-//    private void loadUser(User u){
-//        DocumentReference day = u.getMealsPlanned().get(dateDisplay);
-//
-//    }
-//    private void loadMeals(DayPlan day){
-//        Meal breakfast;
-//        Meal lunch;
-//        Meal dinner;
-//        day.getBreakfast().get()
-//
-//
-//
-//    }
     public void onChangeMeal(View v) {
         Intent mealIntent = new Intent(getApplicationContext(), MealChoiceActivity.class);
         switch (v.getId()) {
