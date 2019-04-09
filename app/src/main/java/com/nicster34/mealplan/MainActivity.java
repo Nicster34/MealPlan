@@ -41,21 +41,30 @@ public class MainActivity extends AppCompatActivity {
 
     private Date today;
     private DateFormat formatter;
-
     private TextView dateDisplay;
-    private TextView breakfastDisplay;
+
+
     public static final int MEALREQUEST = 1025;
     public static final int DATEREQUEST = 1026;
+
+    private TextView breakfastDisplay;
     private ImageButton breakChangeButton;
     private ImageButton breakViewButton;
+
+    private TextView lunchDisplay;
     private ImageButton lunchChangeButton;
+    private ImageButton lunchViewButton;
+
+    private TextView dinnerDisplay;
     private ImageButton dinChangeButton;
+    private ImageButton dinViewButton;
+
+
     Intent myIntent;
     private ImageView calendarButton;
     private User currentUser;
     private List<Ingredient> allIngredients;
-    private TextView lunchDisplay;
-    private TextView dinnerDisplay;
+
 
 
     private DocumentReference currentPlanRef;
@@ -90,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
         lunchChangeButton = findViewById(R.id.lunch_change);
         dinChangeButton = findViewById(R.id.din_change);
 
+
+        breakViewButton = findViewById(R.id.break_info);
+        lunchViewButton = findViewById(R.id.lunch_info);
+        dinViewButton = findViewById(R.id.din_info);
+
         calendarButton = findViewById(R.id.calendarButton);
 
         View.OnClickListener buttonlistener = new View.OnClickListener(){
@@ -98,10 +112,20 @@ public class MainActivity extends AppCompatActivity {
                 onChangeMeal(v);
             }
         };
+        View.OnClickListener viewButtonlistener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onViewMeal(v);
+            }
+        };
 
         breakChangeButton.setOnClickListener(buttonlistener);
         lunchChangeButton.setOnClickListener(buttonlistener);
         dinChangeButton.setOnClickListener(buttonlistener);
+
+        breakViewButton.setOnClickListener(viewButtonlistener);
+        lunchViewButton.setOnClickListener(viewButtonlistener);
+        dinViewButton.setOnClickListener(viewButtonlistener);
 
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -265,6 +289,22 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(mealIntent, MEALREQUEST);
     }
 
+    public void onViewMeal(View v) {
+        Intent mealIntent = new Intent(getApplicationContext(), RecipeActivity.class);
+        switch (v.getId()) {
+            case R.id.break_change:
+                mealIntent.putExtra("meal", currentBreakfast.getName());
+                break;
+            case R.id.lunch_change:
+                mealIntent.putExtra("meal", currentLunch.getName());
+                break;
+            case R.id.din_change:
+                mealIntent.putExtra("meal", currentDinner.getName());
+                break;
+        }
+        startActivityForResult(mealIntent, MEALREQUEST);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -388,8 +428,9 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-            updateBreakfastUI();
+
         }
+        updateBreakfastUI();
 
     }
 
@@ -397,8 +438,10 @@ public class MainActivity extends AppCompatActivity {
     protected void updateBreakfastUI() {
         if (currentBreakfast != null) {
             breakfastDisplay.setText(currentBreakfast.getName());
+            breakViewButton.setVisibility(View.VISIBLE);
         } else {
             breakfastDisplay.setText("Pick a Meal");
+            breakViewButton.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -432,8 +475,10 @@ public class MainActivity extends AppCompatActivity {
     protected void updateLunchUI() {
         if (currentLunch != null) {
             lunchDisplay.setText(currentLunch.getName());
+            lunchViewButton.setVisibility(View.VISIBLE);
         } else {
             lunchDisplay.setText("Pick a Meal");
+            lunchViewButton.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -467,8 +512,11 @@ public class MainActivity extends AppCompatActivity {
     protected void updateDinnerUI() {
         if (currentDinner != null) {
             dinnerDisplay.setText(currentDinner.getName());
+            dinViewButton.setVisibility(View.VISIBLE);
+
         } else {
             dinnerDisplay.setText("Pick a Meal");
+            dinViewButton.setVisibility(View.INVISIBLE);
         }
     }
 
