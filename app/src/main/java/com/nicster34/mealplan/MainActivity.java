@@ -292,17 +292,17 @@ public class MainActivity extends AppCompatActivity {
     public void onViewMeal(View v) {
         Intent mealIntent = new Intent(getApplicationContext(), RecipeActivity.class);
         switch (v.getId()) {
-            case R.id.break_change:
+            case R.id.break_info:
                 mealIntent.putExtra("meal", currentBreakfast.getName());
                 break;
-            case R.id.lunch_change:
+            case R.id.lunch_info:
                 mealIntent.putExtra("meal", currentLunch.getName());
                 break;
-            case R.id.din_change:
+            case R.id.din_info:
                 mealIntent.putExtra("meal", currentDinner.getName());
                 break;
         }
-        startActivityForResult(mealIntent, MEALREQUEST);
+        startActivity(mealIntent);
     }
 
     @Override
