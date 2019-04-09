@@ -43,6 +43,8 @@ public class MealChoiceActivity extends AppCompatActivity {
     private ProgressBar prog;
     private String typeOfMeal;
 
+    private Intent mIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,8 +64,8 @@ public class MealChoiceActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //intent handling (variables passed through different activities)
-        Intent tempInt = getIntent();
-        setTitle("Chose a Meal (" + tempInt.getStringExtra("mealType") + ")");
+        mIntent = getIntent();
+        setTitle("Chose a Meal (" + mIntent.getStringExtra("mealType") + ")");
 
         //firebase authentication and setup
         // Initialize Firebase Auth
@@ -130,7 +132,7 @@ public class MealChoiceActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.recyclerview);
         // Create an adapter and supply the data to be displayed.
-        mAdapter = new WordListAdapter(this, mWordList);
+        mAdapter = new WordListAdapter(this, mWordList, mIntent, this);
         // Connect the adapter with the RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
         // Give the RecyclerView a default layout manager.

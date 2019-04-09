@@ -1,10 +1,12 @@
 package com.nicster34.mealplan;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -221,7 +223,29 @@ public class MainActivity extends AppCompatActivity {
                 mealIntent.putExtra("mealType", "Dinner");
                 break;
         }
-        startActivity(mealIntent);
+        startActivityForResult(mealIntent, 1025);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1025) {
+            if (resultCode == Activity.RESULT_OK) {
+                String selection = data.getStringExtra("mealSelection");
+                switch (data.getStringExtra("mealType")) {
+                    case "Breakfast":
+                        breakfastDisplay.setText(data.getStringExtra("mealSelection"));
+                        break;
+                    case "Lunch":
+                        break;
+                    case "Dinner":
+                        break;
+                }
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
 }
