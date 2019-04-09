@@ -175,63 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                //startActivity(new Intent(MainActivity.this, SignInActivity.class));
                 startActivity(new Intent(getApplicationContext(), RecipeActivity.class));
-                //Ingredient apple = new Ingredient();
-                //apple.setName("apple");
-                //apple.setPrice(3.2);
-                //Meal applesalad = new Meal();
-                // applesalad.setInstructions("Cut apples man");
-                //applesalad.setName("applesalad");
-                //IngredientRef apl = new IngredientRef();
-                //apl.setQuantity(2);
-                // apl.setRef(mDatabase.collection("ingredients").document(apple.getName()));
-                // List<IngredientRef> abs = new ArrayList<IngredientRef>();
-                // abs.add(apl);
-                //applesalad.setIngredients(abs);
-                //mDatabase.collection("meals").document(applesalad.getName()).set(applesalad);
-
-
-//                DocumentReference docRef = mDatabase.collection("users").document(mFirebaseUser.getUid());
-//                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            DocumentSnapshot document = task.getResult();
-//                            if (document.exists()) {
-//                                Log.d("help", "DocumentSnapshot data: " + document.getData());
-//                                currentUser = document.toObject(User.class);
-//                                Log.d("help", "DocumentSnapshot data: " + currentUser.getMealsPlanned());
-//                                loadUser(currentUser);
-//                            } else {
-//                                Log.d("help", "No such document");
-//                            }
-//                        } else {
-//                            Log.d("help", "get failed with ", task.getException());
-//                        }
-//                    }
-//                });
-                //allIngredients = new ArrayList<Ingredient>();
-//                Log.d("Dunking", "onClick: FUCK");
-//                CollectionReference colRef = mDatabase.collection("users").document(mFirebaseUser.getUid()).collection("mealsplanned");
-//                if(colRef==null){
-//                    Log.d("Dunking", "onClick: NULL");
-//                }
-//                colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            Log.d("Dunking", " => " + task.getResult().getDocuments().size());
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d("Dunking", document.getId() + " => " + document.getData());
-//                                //sssallIngredients.add(document.toObject(Ingredient.class));
-//                            }
-//                        } else {
-//                            Log.d("Dunking", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
-
             }
         });
     }
