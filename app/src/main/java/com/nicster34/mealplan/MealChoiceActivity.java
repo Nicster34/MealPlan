@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.AlteredCharSequence;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -20,8 +19,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.nicster34.mealplan.data.Ingredient;
-import com.nicster34.mealplan.data.IngredientRef;
 import com.nicster34.mealplan.data.Meal;
 
 import java.util.ArrayList;
@@ -39,7 +36,7 @@ public class MealChoiceActivity extends AppCompatActivity {
     private FirebaseUser mFirebaseUser;
     private FirebaseFirestore mDatabase;
 
-    private List<Ingredient> allMeals;
+    private List<Meal> allMeals;
     private ProgressBar prog;
     private String typeOfMeal;
 
@@ -83,15 +80,15 @@ public class MealChoiceActivity extends AppCompatActivity {
         //grabbing the information from the databases
 
         mDatabase.collection("meals").get();
-        allMeals = new ArrayList<Ingredient>();
-        CollectionReference colRef = mDatabase.collection("ingredients");
+        allMeals = new ArrayList<Meal>();
+        CollectionReference colRef = mDatabase.collection("meals");
         colRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        allMeals.add(document.toObject(Ingredient.class));
+                        allMeals.add(document.toObject(Meal.class));
                     }
                     updateUI(allMeals);
                 } else {
@@ -120,12 +117,13 @@ public class MealChoiceActivity extends AppCompatActivity {
 
     }
 
-    private void updateUI(List<Ingredient> meals) {
+    private void updateUI(List<Meal> meals) {
 
 
-        for (Ingredient meal : meals) {
+        for (Meal meal : meals) {
             mWordList.addLast(meal.getName());
-            Log.d("Dunking", meal.getName());
+
+            Log.d("Dunking", "name: " + meal.getName());
         }
 
         prog.setVisibility(View.INVISIBLE);

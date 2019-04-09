@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView dateDisplay;
     private TextView breakfastDisplay;
+    public static final int MEALREQUEST = 1025;
+    public static final int DATEREQUEST = 1026;
     private ImageButton breakChangeButton;
     private ImageButton lunchChangeButton;
     private ImageButton dinChangeButton;
@@ -38,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView calendarButton;
     private User currentUser;
     private List<Ingredient> allIngredients;
-
+    private TextView lunchDisplay;
+    private TextView dinnerDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +50,15 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         today = new Date();
         dateDisplay = findViewById(R.id.text_date);
+
         breakfastDisplay = findViewById(R.id.break_name);
+        lunchDisplay = findViewById(R.id.lunch_name);
+        dinnerDisplay = findViewById(R.id.din_name);
 
         breakChangeButton = findViewById(R.id.break_change);
         lunchChangeButton = findViewById(R.id.lunch_change);
         dinChangeButton = findViewById(R.id.din_change);
+
         calendarButton = findViewById(R.id.calendarButton);
 
         View.OnClickListener buttonlistener = new View.OnClickListener(){
@@ -86,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
+                startActivityForResult(new Intent(getApplicationContext(), CalendarActivity.class), DATEREQUEST);
             }
         });
 
@@ -223,22 +229,30 @@ public class MainActivity extends AppCompatActivity {
                 mealIntent.putExtra("mealType", "Dinner");
                 break;
         }
-        startActivityForResult(mealIntent, 1025);
+        startActivityForResult(mealIntent, MEALREQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 1025) {
+        if (requestCode == DATEREQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                String selection = data.getStringExtra("newDate");
+                dateDisplay.setText(selection);
+            }
+        }
+        if (requestCode == MEALREQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 String selection = data.getStringExtra("mealSelection");
                 switch (data.getStringExtra("mealType")) {
                     case "Breakfast":
-                        breakfastDisplay.setText(data.getStringExtra("mealSelection"));
+                        breakfastDisplay.setText(selection);
                         break;
                     case "Lunch":
+                        lunchDisplay.setText(selection);
                         break;
                     case "Dinner":
+                        dinnerDisplay.setText(selection);
                         break;
                 }
             }
